@@ -1,0 +1,20 @@
+on:
+  push:
+    branches:
+      - dev
+
+jobs:
+  test_job_1:
+    runs-on: ubuntu-latest
+    name: merged first test job
+    steps:
+      - name: Checkout
+        uses: actions/Checkout@v5
+      - name: Hello World action step
+        uses: ./
+        id: test
+        with:
+          who: 'joeball399'
+      - name: Get the output time
+        run: echo "The time was ${{ steps.test.outputs.time }}"
+
