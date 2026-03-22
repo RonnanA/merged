@@ -1,0 +1,15 @@
+name: 'merged-test'
+description: 'test creating my own action'
+inputs:
+  who:
+    description: 'who to greet'
+    required: true
+    default: 'world'
+outputs:
+  time:
+    description: 'the time we greeted you'
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  args:
+    - ${{ inputs.who }}
