@@ -1,20 +1,23 @@
-from ollama import chat
+import requests
 
-def get_code_review():
+def get_code_review(ollama_url, ollama_model):
     prompt_file = '/src/prompt.txt'
 
     with open(prompt_file, 'r') as f:
-        prompt_text = f.read()
+        prompt = f.read()
 
-    print(f"prompt text: {prompt_text}")
+    print(f"prompt text: {prompt}")
 
-    response = chat(model='qwen2.5-coder:1.5b', messages=[
-        {
-            'role': 'user',
-            'content': prompt_text,
-        },
-    ])
+    response = requests.post(
+        f"{ollama_url}/api/generate",
+        json={
+            "model": ollama_model,
+            "prompt": prompt,
+            "stream": False
+        }
+    )
+
+    response.raise_for_status()
     
-    pr_comment = response.message.content
-    return pr_comment
+    return response.json()['response']
 
