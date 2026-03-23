@@ -1,7 +1,7 @@
 import time
 import sys
 import os
-from github_client import get_diff, post_comment
+from github_client import get_diff, post_comment, delete_previous_comment
 
 
 github_token = sys.argv[1]
@@ -23,4 +23,7 @@ if github_output:
 repo, pr_number, pr_diff = get_diff(github_token)
 
 sample_text = "sample comment for PR"
-post_comment(github_token, repo, pr_number, sample_text)
+#post_comment(github_token, repo, pr_number, sample_text)
+
+delete_previous_comment(github_token, repo, pr_number)
+
