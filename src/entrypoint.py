@@ -47,8 +47,8 @@ if github_output:
         print(f"Error: Could not decode JSON from the GitHub event file at {github_event_path}")
         sys.exit(1)
 
-sample_text = "sample comment for PR"
+sample_text = "sample comment 2 for PR"
 
 get_diff(github_token, repo, pr_number)
-delete_previous_comment(github_token, repo, pr_number)
-#post_comment(github_token, repo, pr_number, sample_text)
+#delete_previous_comment(github_token, repo, pr_number)
+post_comment(github_token, repo, pr_number, sample_text)
