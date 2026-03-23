@@ -4,12 +4,12 @@ import sys
 import os
 
 def get_diff(github_token):
+    print("in github_client.py")
     # Get the owner and repo value from GITHUB_REPOSITORY ENV var
-    github_repository = os.getenv('GITHUB_REPOSITORY')
-    if not github_repository:
+    repo = os.getenv('GITHUB_REPOSITORY')
+    if not repo:
         print("Error: GITHUB_REPOSITORY env var not set")
         sys.exit(1)
-    repo = github_repository.split("/")
 
     # Get the PR number from the GITHUB_EVENT_PATH ENV var
     github_event_path = os.getenv('GITHUB_EVENT_PATH')
@@ -32,20 +32,50 @@ def get_diff(github_token):
         sys.exit(1)
 
 
-    api_url = f"https://api.github.com/repos/{repo[0]}/{repo[1]}/pulls/{pr_number}"
+    api_url = f"https://api.github.com/repos/{repo}/pulls/{pr_number}"
     headers = {
         'Accept': '"application/vnd.github.v3.diff"',
-        'Authorization': f'token {github_token}',
+        'Authorization': f'Bearer {github_token}',
         'X-GitHub-Api-Version': '2026-03-10'
     }
     
     try:
         response = requests.get(api_url, headers=headers)
+        response.raise_for_status()
         pr_diff = response.text
+        print("PR DIFF:\n")
         print(pr_diff)
 
     except requests.exceptions.RequestException as e:
-        print(f"Error: {e}")
-        if response is not None:
-            print(f"Response status code: {response.status_code}")
-            print(f"Response body: {response.text}")
+        print(f"Error posting comment: {e}")
+        print(f"Response status code: {response.status_code}")
+        print(f"Response body: {response.text}")
+
+    return repo, pr_number, pr_diff
+
+
+def post_comment(github_token, repo, pr_number, review_text):
+    api_url = f"https://api.github.com/repos/{repo}/issues/{pr_number}/comments"
+
+    headers = {
+        'Accept': 'application/vnd.github+json',
+        'Authorization': f'Bearer {github_token}',
+        'X-GitHub-Api-Version': '2026-03-10'
+    }
+
+    data = {
+        'body': f'<!-- merged. -->\n{review_text}'
+    }
+
+    try:
+        response = requests.post(api_url, headers=headers, json=data)
+        response.raise_for_status()
+        print("Comment posted successfully")
+
+    except requests.exceptions.RequestException as e:
+        print(f"Error posting comment: {e}")
+        print(f"Response status code: {response.status_code}")
+        print(f"Response body: {response.text}")
+
+
+#def delete_previous_comment(github_token, repo, pr_number):
