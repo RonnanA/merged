@@ -20,4 +20,4 @@ if github_output:
     with open(github_output, "a") as f:
         f.write(f"time={rn}\n")
 
-get_diff()
+get_diff(github_token)
