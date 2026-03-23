@@ -22,6 +22,7 @@ def get_diff(github_token, repo, pr_number):
         print(f"Response body: {response.text}")
 
     print("get diff function complete")
+    return pr_diff
 
 
 def post_comment(github_token, repo, pr_number, review_text):
@@ -49,7 +50,8 @@ def post_comment(github_token, repo, pr_number, review_text):
 
     print("post comment function complete")
 
-def delete_previous_comment(github_token, repo, pr_number):
+
+def delete_previous_comments(github_token, repo, pr_number):
     get_api_url = f"https://api.github.com/repos/{repo}/issues/{pr_number}/comments"
 
     headers = {

@@ -2,7 +2,7 @@ import time
 import sys
 import os
 import json
-from github_client import get_diff, post_comment, delete_previous_comment
+from github_client import get_diff, post_comment, delete_previous_comments
 from reviewer import get_code_review
 
 
@@ -50,7 +50,8 @@ except json.JSONDecodeError:
 
 sample_text = "sample comment 4 for PR"
 
-get_diff(github_token, repo, pr_number)
-delete_previous_comment(github_token, repo, pr_number)
-pr_comment = get_code_review(ollama_url, ollama_model)
+pr_diff = get_diff(github_token, repo, pr_number)
+pr_comment = get_code_review(ollama_url, ollama_model, pr_diff)
+
+delete_previous_comments(github_token, repo, pr_number)
 post_comment(github_token, repo, pr_number, pr_comment)
