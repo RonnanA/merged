@@ -11,6 +11,9 @@ Rules:
 - Do not comment on formatting or style preferences
 - Do not praise code that is fine, only flag real issues
 - If there are no issues, say so clearly
+- When listing issues, always reference the file name and line number in this format: `filename.ext` line X: description of issue
+- Line numbers refer to the line numbers shown in the diff after the + or - symbols, not the absolute file line numbers. Always prefix with the filename.
+- Do not add sub-bullets or repeat the line number.
 
 Format your response as follows:
 ## Code Review
