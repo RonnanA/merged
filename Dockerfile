@@ -1,3 +1,4 @@
 FROM python:3.10-slim
-COPY /src/entrypoint.py /entrypoint.py
-ENTRYPOINT ["python", "/entrypoint.py"]
+COPY src/ /src/
+WORKDIR /src
+ENTRYPOINT ["python", "/src/entrypoint.py"]
