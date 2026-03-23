@@ -1,7 +1,4 @@
 import requests
-import json
-import sys
-import os
 
 def get_diff(github_token, repo, pr_number):
     api_url = f"https://api.github.com/repos/{repo}/pulls/{pr_number}"
