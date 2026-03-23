@@ -1,7 +1,7 @@
 from ollama import chat
 
 def get_code_review():
-    prompt_file = 'src/prompt.txt'
+    prompt_file = 'prompt.txt'
 
     with open(prompt_file, 'r') as f:
         prompt_text = f.read()
