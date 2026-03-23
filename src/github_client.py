@@ -75,11 +75,16 @@ def delete_previous_comment(github_token, repo, pr_number):
             comment_body = comment.get('body')
             comment_author = comment.get('user', {}).get('login')
 
-        if '<!-- merged. -->' in comment_body and comment_author == 'github-actions[bot]':
-            delete_api_url = f"https://api.github.com/repos/{repo}/issues/comments/{comment_id}"
-            delete_response = requests.delete(delete_api_url, headers=headers)
-            delete_response.raise_for_status()
-            print(f"Comment {comment_id} deleted successfully")
+        if comment_body and comment_author:
+            if '<!-- merged. -->' in comment_body and comment_author == 'github-actions[bot]':
+                delete_api_url = f"https://api.github.com/repos/{repo}/issues/comments/{comment_id}"
+                delete_response = requests.delete(delete_api_url, headers=headers)
+                delete_response.raise_for_status()
+                print(f"Comment {comment_id} deleted successfully")
+
+        else:
+            print("No previous PR comment")
+            return
 
     except requests.exceptions.RequestException as e:
         print(f"Error retrieving comment: {e}")
