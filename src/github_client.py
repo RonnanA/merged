@@ -4,8 +4,6 @@ import sys
 import os
 
 def get_diff(github_token, repo, pr_number):
-    print("in github_client.py")
-
     api_url = f"https://api.github.com/repos/{repo}/pulls/{pr_number}"
 
     headers = {
@@ -18,7 +16,7 @@ def get_diff(github_token, repo, pr_number):
         response = requests.get(api_url, headers=headers)
         response.raise_for_status()
         pr_diff = response.text
-        print("\nPR DIFF:")
+        print("PR DIFF:")
         print(pr_diff)
 
     except requests.exceptions.RequestException as e:
@@ -30,8 +28,6 @@ def get_diff(github_token, repo, pr_number):
 
 
 def post_comment(github_token, repo, pr_number, review_text):
-    print("in post_comment.py")
-
     api_url = f"https://api.github.com/repos/{repo}/issues/{pr_number}/comments"
 
     headers = {
