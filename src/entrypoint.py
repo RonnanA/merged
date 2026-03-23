@@ -23,4 +23,4 @@ if github_output:
 repo, pr_number, pr_diff = get_diff(github_token)
 
 sample_text = "sample comment for PR"
-post_comment(github_output, repo, pr_number, sample_text)
+post_comment(github_token, repo, pr_number, sample_text)

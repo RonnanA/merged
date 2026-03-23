@@ -43,7 +43,7 @@ def get_diff(github_token):
         response = requests.get(api_url, headers=headers)
         response.raise_for_status()
         pr_diff = response.text
-        print("PR DIFF:\n")
+        print("\nPR DIFF:")
         print(pr_diff)
 
     except requests.exceptions.RequestException as e:
@@ -51,6 +51,7 @@ def get_diff(github_token):
         print(f"Response status code: {response.status_code}")
         print(f"Response body: {response.text}")
 
+    print("get diff function complete")
     return repo, pr_number, pr_diff
 
 
@@ -77,5 +78,6 @@ def post_comment(github_token, repo, pr_number, review_text):
         print(f"Response status code: {response.status_code}")
         print(f"Response body: {response.text}")
 
+    print("post comment function complete")
 
 #def delete_previous_comment(github_token, repo, pr_number):
