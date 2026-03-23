@@ -38,6 +38,7 @@ def get_diff(github_token):
         'Authorization': f'token {github_token}',
         'X-GitHub-Api-Version': '2026-03-10'
     }
+    
     try:
         response = requests.get(api_url, headers=headers)
         pr_diff = response.text
