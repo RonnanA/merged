@@ -66,46 +66,24 @@ def delete_previous_comment(github_token, repo, pr_number):
     }
 
     try:
-        response = requests.get(get_api_url, headers=headers)
-        response.raise_for_status()
+        get_response = requests.get(get_api_url, headers=headers)
+        get_response.raise_for_status()
+        comments_data = get_response.json()
 
-        comments_data = response.json()
-        if isinstance(comments_data, list):
-            for comment in comments_data:
-                comment_id = comment.get('id')
-                comment_body = comment.get('body')
-                comment_author = comment.get('user', {}).get('login')
+        for comment in comments_data:
+            comment_id = comment.get('id')
+            comment_body = comment.get('body')
+            comment_author = comment.get('user', {}).get('login')
 
-        elif isinstance(comments_data, dict):
-            comment_id = comments_data.get('id')
-            comment_body = comments_data.get('body')
-            comment_author = comments_data.get('user', {}).get('login')
-        
-        print(f"Comment id: {comment_id}")
-        print(f"Comment body: {comment_body}")
+        if '<!-- merged. -->' in comment_body and comment_author == 'github-actions[bot]':
+            delete_api_url = f"https://api.github.com/repos/{repo}/issues/comments/{comment_id}"
+            delete_response = requests.delete(delete_api_url, headers=headers)
+            delete_response.raise_for_status()
+            print(f"Comment {comment_id} deleted successfully")
 
     except requests.exceptions.RequestException as e:
         print(f"Error retrieving comment: {e}")
-        print(f"Response status code: {response.status_code}")
-        print(f"Response body: {response.text}")
-    
-    if '<!-- merged. -->' in comment_body and comment_author == 'github-actions[bot]':
-        delete_api_url = f"https://api.github.com/repos/{repo}/issues/comments/{comment_id}"
-
-        headers = {
-        'Accept': 'application/vnd.github+json',
-        'Authorization': f'Bearer {github_token}',
-        'X-GitHub-Api-Version': '2026-03-10'
-        }
-
-        try:
-            response = requests.delete(delete_api_url, headers=headers)
-            response.raise_for_status()
-            print(f"Comment {comment_id} deleted successfully")
-        
-        except requests.exceptions.RequestException as e:
-            print(f"Error deleting comment: {e}")
-            print(f"Response status code: {response.status_code}")
-            print(f"Response body: {response.text}")
+        print(f"Response status code: {e.response.status_code}")
+        print(f"Response body: {e.response.text}")
 
     print("delete_previous_comment function complete")
