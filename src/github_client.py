@@ -90,7 +90,7 @@ def delete_previous_comment(github_token, repo, pr_number):
         print(f"Response body: {response.text}")
     
     if '<!-- merged. -->' in comment_body and comment_author == 'github-actions[bot]':
-        delete_api_url = f"https://api.github.com/repos/{repo}/issues/{pr_number}/comments/{comment_id}"
+        delete_api_url = f"https://api.github.com/repos/{repo}/issues/comments/{comment_id}"
 
         headers = {
         'Accept': 'application/vnd.github+json',
