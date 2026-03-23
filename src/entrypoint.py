@@ -1,6 +1,7 @@
 import time
 import sys
 import os
+from github_client import get_diff
 
 
 github_token = sys.argv[1]
@@ -18,3 +19,5 @@ github_output = os.getenv('GITHUB_OUTPUT')
 if github_output:
     with open(github_output, "a") as f:
         f.write(f"time={rn}\n")
+
+get_diff()
