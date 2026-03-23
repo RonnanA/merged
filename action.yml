@@ -1,15 +1,28 @@
-name: 'merged-test'
-description: 'test creating my own action'
+name: 'merged-action'
+description: 'AI code review action in the merged repo.'
+
 inputs:
-  who:
-    description: 'who to greet'
+  github_token:
+    description: 'the auth token for the action to make an API call to GH'
     required: true
-    default: 'world'
+    default: ${{ secrets.GITHUB_TOKEN }}
+  ollama_url:
+    description: 'the localhost url with port'
+    required: true
+    default: 'http://localhost:11434'
+  ollama_model:
+    description: 'the ollama model the user chooses'
+    required: true
+    default: 'qwen2.5-coder:1.5b'
+
 outputs:
   time:
-    description: 'the time we greeted you'
+    description: 'the time the workflow ran'
+
 runs:
   using: 'docker'
   image: 'Dockerfile'
   args:
-    - ${{ inputs.who }}
+    - ${{ inputs.github_token }}
+    - ${{ inputs.ollama_url }}
+    - ${{ inputs.ollama_model }}

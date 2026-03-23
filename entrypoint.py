@@ -2,8 +2,15 @@ import time
 import sys
 import os
 
-name = sys.argv[1] if len(sys.argv) > 1 else ""
-print(f"Hello {name}")
+
+github_token = sys.argv[1]
+ollama_url = sys.argv[2]
+ollama_model = sys.argv[3]
+
+print("in entrypoint.py")
+print(f"the github token is: {github_token}")
+print(f"the ollama url is: {ollama_url}")
+print(f"the ollama model is: {ollama_model}")
 
 rn = time.ctime()
 
