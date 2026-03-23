@@ -52,5 +52,5 @@ sample_text = "sample comment 4 for PR"
 
 get_diff(github_token, repo, pr_number)
 delete_previous_comment(github_token, repo, pr_number)
-pr_comment = get_code_review()
+pr_comment = get_code_review(ollama_url, ollama_model)
 post_comment(github_token, repo, pr_number, pr_comment)
