@@ -91,13 +91,20 @@ def delete_previous_comment(github_token, repo, pr_number):
     try:
         response = requests.get(api_url, headers=headers)
         response.raise_for_status()
-
+        
         comments_data = response.json()
-        comment_id = comments_data.get('id')
-        comment_body = comments_data.get('body')
+        if isinstance(comments_data, list):
+            for comment in comments_data:
+                comment_id = comment.get('id')
+                comment_body = comment.get('body')
+
+        elif isinstance(comments_data, dict):
+            comment_id = comments_data.get('id')
+            comment_body = comments_data('body')
+        
         print(f"Comment id: {comment_id}")
         print(f"Comment body: {comment_body}")
-        
+
     except requests.exceptions.RequestException as e:
         print(f"Error deleting comment: {e}")
         print(f"Response status code: {response.status_code}")
