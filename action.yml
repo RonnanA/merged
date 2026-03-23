@@ -5,7 +5,7 @@ inputs:
   github_token:
     description: 'the auth token for the action to make an API call to GH'
     required: true
-    default: ${{ secrets.GITHUB_TOKEN }}
+    default: 'no token provided'
   ollama_url:
     description: 'the localhost url with port'
     required: true
