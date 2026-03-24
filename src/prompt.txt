@@ -12,6 +12,7 @@ Important rules:
 - Reference the filename and line number for each issue in this format: `filename.ext` line X: description
 - Line numbers refer to lines shown in the diff, always prefix with the filename
 - Do not add sub-bullets or repeat the line number
+- If you are not 100% certain an issue exists based only on what is shown in the diff, do not mention it. It is better to report nothing than to report something incorrect. Never invent issues.
 
 Only flag issues that fall into these categories:
 - Bugs and logical errors that will cause incorrect behavior
